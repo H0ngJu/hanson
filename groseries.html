@@ -27,6 +27,7 @@
 
       .pastDay {
         background-color: lightgray;
+        cursor: pointer;
       }
 
       .today {
@@ -44,6 +45,13 @@
         background-color: #3e85ef;
         color: #fff;
         cursor: pointer;
+      }
+      .mono-content.mono-content-box {
+        border: solid 1px black;
+        height: 20vh;
+        width: 50%;
+        margin: auto;
+        /* background-color: #3e85ef; */
       }
     </style>
   </head>
@@ -72,7 +80,17 @@
       <tbody></tbody>
     </table>
     <div class="mono-content">
-      <div>hi</div>
+      <span id="selectedMonth"></span>
+      <span>월</span>
+      <span id="selectedDate"></span>
+      <span>일</span>
+      <div>
+        <input type="text" onkeydown="handleKeyDown(event)" id="mono-content-box" class="mono-content mono-content-box">
+        <div id="checkboxContainer"></div>
+        <button id="showListButton" onclick="showList()">목록 보기</button>
+      </input></div>
+      
+      <button id="mono-content-button" class="mono-content mono-contet-button">수정하기</button>
     </div>
     <script>
       window.onload = function () {
@@ -137,6 +155,9 @@
           if (nowDay < today) {
             // 지난날인 경우
             nowColumn.className = "pastDay";
+            nowColumn.onclick = function () {
+              choiceDate(this);
+            };
           } else if (
             nowDay.getFullYear() == today.getFullYear() &&
             nowDay.getMonth() == today.getMonth() &&
@@ -172,7 +193,11 @@
           nowMonth.getMonth(),
           parseInt(nowColumn.innerText)
         );
-        console.log(selectedDate);
+        document.getElementById("selectedMonth").innerText =
+          selectedDate.getMonth() + 1;
+        document.getElementById("selectedDate").innerText =
+          selectedDate.getDate();
+        console.log("선택한 날짜", selectedDate);
       }
 
       // 이전달 버튼 클릭
@@ -193,7 +218,6 @@
         ); // 현재 달을 1 증가
         buildCalendar(); // 달력 다시 생성
       }
-
       // input값이 한자리 숫자인 경우 앞에 '0' 붙혀주는 함수
       function leftPad(value) {
         if (value < 10) {
@@ -201,7 +225,43 @@
           return value;
         }
         return value;
-      }
+      }      
+      var checklist = []; // 체크리스트 아이템을 저장할 배열
+
+function handleKeyDown(event) {
+  if (event.keyCode === 13) { // Enter 키를 눌렀을 때
+    var input = document.getElementById('mono-content-box');
+    var checkboxContainer = document.getElementById('checkboxContainer');
+
+    if (input.value.trim() !== '') { // 입력한 내용이 비어있지 않은 경우
+      var checkbox = document.createElement('input');
+      checkbox.type = 'checkbox';
+      checkbox.checked = true; // 체크박스 기본 상태 설정
+      checkboxContainer.appendChild(checkbox);
+
+      var label = document.createElement('label');
+      label.textContent = input.value.trim();
+      checkboxContainer.appendChild(label);
+
+      checklist.push(input.value.trim()); // 체크리스트 아이템 배열에 추가
+
+      input.value = ''; // 입력 필드 비우기
+    }
+  }
+}
+
+function showList() {
+  var list = document.createElement('ul');
+
+  for (var i = 0; i < checklist.length; i++) {
+    var item = document.createElement('li');
+    item.textContent = checklist[i];
+    list.appendChild(item);
+  }
+
+  var button = document.getElementById('showListButton');
+  button.insertAdjacentElement('beforebegin', list); // 목록을 버튼 위에 출력
+}
     </script>
   </body>
 </html>
