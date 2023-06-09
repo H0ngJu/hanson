@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <title>공공데이터 API 사용 예제</title>
+  </head>
+  <body>
+    <p id="sample_data"></p>
+    <script>
+      const url =
+        "http://api.data.go.kr/openapi/tn_pubr_public_trdit_mrkt_api?serviceKey=jXEMTn3KJJ8OHBzYeV3wlyR9Fsjj2BnTXMdh6NviAIhfhbEeNzA9OhoxgiA2zK/8cNx8L8wPRbNS4VgTr0LoVw==&pageNo=1&numOfRows=10&type=json";
+
+      dataPane = document.getElementById("sample_data");
+
+      fetch(url)
+        .then((res) => res.json())
+        .then((resJson) => {
+          dataPane.innerText = JSON.stringify(resJson, null, 1);
+        });
+    </script>
+  </body>
+</html>

@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <style>
+      .title {
+        display: inline-block;
+        font-size: 36px;
+        font-weight: bold;
+        text-transform: uppercase;
+        position: relative;
+      }
+      .title span {
+        display: inline-block;
+        position: absolute;
+        left: 0;
+        top: 0;
+        transition: all 0.3s ease-in-out;
+      }
+      .title span:nth-child(1) {
+        transform: translate(0, 0) rotate(0deg);
+      }
+      .title span:nth-child(2) {
+        transform: translate(60px, 0) rotate(0deg);
+      }
+      .title span:nth-child(3) {
+        transform: translate(90px, 0) rotate(0deg);
+      }
+      .title span:nth-child(4) {
+        transform: translate(150px, 0) rotate(0deg);
+      }
+    </style>
+    <script>
+      const title = document.querySelector(".title");
+      const letters = title.querySelectorAll("span");
+
+      title.addEventListener("mouseover", () => {
+        letters.forEach((letter, index) => {
+          letter.style.transform = `translate(${index * 20}px, ${
+            index * 20
+          }px) rotate(${index * 30}deg)`;
+        });
+      });
+
+      title.addEventListener("mouseout", () => {
+        letters.forEach((letter) => {
+          letter.style.transform = "none";
+        });
+      });
+    </script>
+  </head>
+  <body>
+    <div class="title">
+      <span>Can</span>
+      <span>I</span>
+      <span>Say</span>
+      <span>Bravo?</span>
+    </div>
+  </body>
+</html>
